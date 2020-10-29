@@ -7,10 +7,6 @@ cam.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25) # 0.25 turns OFF auto exp
 cam.set(cv2.CAP_PROP_AUTO_WB, 0.25) # 0.25 turns OFF auto WB
 
 
-
-def update_(x):  
-    pass 
-
 while True:
     lower_HSV = np.array([0, 48, 80], dtype = "uint8")  
     upper_HSV = np.array([25, 255, 255], dtype = "uint8")  
