@@ -74,7 +74,18 @@ while True:
         offsetY = 0
         cX = offsetX + scaleX *int(M["m10"] / M["m00"])  
         cY = offsetY + scaleY *int(M["m01"] / M["m00"])  
-        pyautogui.moveTo(cX, cY, duration=0.02, tween=pyautogui.easeInOutQuad) 
+        # pyautogui.moveTo(cX, cY, duration=0.02, tween=pyautogui.easeInOutQuad) 
+
+        # Part 4 - simple gesture
+        # 1) 1 finger detected = type hello
+        if fingerCount == 1:
+            pyautogui.write('Hello world!\n')
+        # 2) 2 fingers with angle apart greater than 60 degrees.
+        if fingerCount == 2 and angle >= np.pi / 3:
+            pyautogui.write('Goodbye world!\n')
+        # 3) 5 fingers and offset X is negative
+        if fingerCount == 5 and offsetX <= 0:
+            pyautogui.write('Im moving left!!\n')
 
         # print("Finger count: ", fingerCount)
         cv2.imshow("Contour: ", thresh)
