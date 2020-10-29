@@ -35,6 +35,7 @@ while True:
     skinMask = cv2.GaussianBlur(skinMask, (3, 3), 0) 
     skin = cv2.bitwise_and(frame, frame, mask = skinMask) 
     
+    # part 2
     gray = cv2.cvtColor(skin,cv2.COLOR_BGR2GRAY)  
     ret, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU )  
     ret, markers, stats, centroids = cv2.connectedComponentsWithStats(thresh,ltype=cv2.CV_16U)  
