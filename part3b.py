@@ -63,7 +63,7 @@ while True:
                         fingerCount += 1  
                         cv2.circle(thresh, far, 4, [0, 0, 255], -1)
                     thresh = cv2.line(thresh,start,end,(0,255,0),2)  
- 
+        print("Finger count: ", fingerCount + 1)
         cv2.imshow("Contour: ", thresh)
         cv2.waitKey(1)
 
