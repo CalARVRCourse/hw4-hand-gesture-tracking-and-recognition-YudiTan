@@ -6,6 +6,15 @@ import pyautogui
 cam = cv2.VideoCapture(0)
 cam.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25) # 0.25 turns OFF auto exp
 cam.set(cv2.CAP_PROP_AUTO_WB, 0.25) # 0.25 turns OFF auto WB
+prevcX = 0
+prevFC = 1
+threshold = 10
+
+def movedRight(cx, pcx, t):
+    return cx < (pcx - t)
+
+def movedLeft(cx, pcx, t):
+    return cx > (pcx + t)
 
 while True:
     lower_HSV = np.array([0, 48, 80], dtype = "uint8")  
@@ -76,20 +85,29 @@ while True:
         cY = offsetY + scaleY *int(M["m01"] / M["m00"])  
         # pyautogui.moveTo(cX, cY, duration=0.02, tween=pyautogui.easeInOutQuad) 
 
-        # Part 4 - simple gesture
-        # 1) 1 finger detected = type hello
-        if fingerCount == 1:
-            pyautogui.write('Hello world!\n')
-        # 2) 2 fingers with angle apart greater than 60 degrees.
-        if fingerCount == 2 and angle >= np.pi / 3:
-            pyautogui.write('Goodbye world!\n')
-        # 3) 5 fingers and offset X is negative
-        if fingerCount == 5 and offsetX <= 0:
-            pyautogui.write('Im moving left!!\n')
+        # Part 4 - complex gesture
+        if movedLeft(cX, prevcX, threshold):
+            # we navigate to previous chrome tab by pressing option + cmd + left
+            prevcX = cX
+            pyautogui.hotkey("option", "command", "left")
+        elif movedRight(cX, prevcX, threshold):
+            # we navigate to next chrome tab by pressing option + cmd + right
+            prevcX = cX
+            pyautogui.hotkey("option", "command", "right")
+            
+        if fingerCount > prevFC:
+            # we zoom in if angle between finger increased
+            prevFC = fingerCount
+            pyautogui.hotkey('command', '+')  
 
-        # print("Finger count: ", fingerCount)
+        elif fingerCount < prevFC:
+            # we zoom out if angle between finger decreased
+            prevFC = fingerCount
+            pyautogui.hotkey('command', '-')  
+
+  
         cv2.imshow("Contour: ", thresh)
-        cv2.waitKey(1)
+        cv2.waitKey(500)
 
    
 
