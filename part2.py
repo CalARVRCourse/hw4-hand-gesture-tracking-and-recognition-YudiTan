@@ -64,7 +64,7 @@ while True:
             if(maxCntLength>=5):  
                 ellipseParam = cv2.fitEllipse(cnt)  
                 (x,y),(MA,ma),angle = ellipseParam
-                print("X: {}, Y: {}, MA: {}, ma: {}, angel: {}".format(x, y, MA, ma, angle))
+                print("X: {}, Y: {}, MA: {}, ma: {}, angle: {}".format(x, y, MA, ma, angle))
                 subImg = cv2.cvtColor(subImg, cv2.COLOR_GRAY2RGB);  
                 subImg = cv2.ellipse(subImg,ellipseParam,(0,255,0),2)  
               
